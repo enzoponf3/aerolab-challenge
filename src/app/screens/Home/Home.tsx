@@ -1,49 +1,45 @@
 import * as React from "react";
-import {Container, Stack, Heading, Box, Flex} from "@chakra-ui/react";
+import {Stack, Heading, Flex, CircularProgress} from "@chakra-ui/react";
 
 import header from "../../../assets/header.png";
 import ProductsGrid from "../../../product/components/ProductsGrid";
-import {useProducts} from "../../../product/hooks";
+import {Product} from "../../../product/types";
+import api from "../../../product/api";
 
 const HomeScreen: React.FC = () => {
-  const products = useProducts();
+  const [products, setProducts] = React.useState<Product[]>([]);
+  const [status, setStatus] = React.useState<"pending" | "resolved" | "rejected">("pending");
+
+  React.useEffect(() => {
+    api.list().then((products) => {
+      setProducts(products);
+      setStatus("resolved");
+    });
+  }, []);
+
+  if (status === "pending") {
+    return (
+      <Flex alignItems="center" justifyContent="center" paddingY={12}>
+        <CircularProgress isIndeterminate color="primary.500" />
+      </Flex>
+    );
+  }
 
   return (
-    <Stack backgroundColor="gray.50" flex={1} spacing={0}>
-      <Flex as="header" minHeight={64} position="relative">
-        <Box
-          backgroundColor="primary.500"
-          height="100%"
-          left={0}
-          position="absolute"
-          style={{mixBlendMode: "overlay"}}
-          top={0}
-          width="100%"
-          zIndex={1}
-        />
-        <Container
-          alignItems="flex-end"
-          backgroundImage={`url(${header})`}
-          backgroundSize="cover"
-          display="flex"
-          filter="grayscale(1)"
-          flex={1}
-          height="100%"
-          justifyContent="flex-start"
-          maxWidth="6xl"
-          minHeight={64}
-          paddingY={7}
-        >
-          <Heading color="white" fontSize="4xl" width="fit-content">
-            Electronics
-          </Heading>
-        </Container>
+    <Stack flex={1} spacing={6}>
+      <Flex
+        alignItems="flex-end"
+        backgroundImage={`url(${header})`}
+        backgroundSize="cover"
+        justifyContent="flex-start"
+        minHeight={64}
+        padding={6}
+      >
+        <Heading color="white" fontSize="4xl">
+          Electronics
+        </Heading>
       </Flex>
-      <Stack as="main">
-        <Container marginTop={6} maxWidth="6xl">
-          <ProductsGrid canBuy products={products} />
-        </Container>
-      </Stack>
+      <ProductsGrid canBuy products={products} />
     </Stack>
   );
 };

@@ -1,13 +1,15 @@
 import * as React from "react";
-import {Stack} from "@chakra-ui/react";
+import {Center, Container, Stack} from "@chakra-ui/react";
 
 import Navbar from "./Navbar";
 
 const Layout: React.FC = ({children}) => {
   return (
-    <Stack flex={1} spacing={0}>
+    <Stack backgroundColor="gray.100" flex={1} spacing={0}>
       <Navbar />
-      {children}
+      <Center>
+        <Container maxWidth="6xl">{children}</Container>
+      </Center>
     </Stack>
   );
 };

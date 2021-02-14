@@ -1,61 +1,78 @@
+import {CircularProgress, useToast} from "@chakra-ui/react";
 import React from "react";
 
 import {Product} from "../product/types";
+import productApi from "../product/api";
 
+import api from "./api";
 import {User} from "./types";
 
 export interface Context {
   state: {
     user: User;
-    history: User["redeemHistory"];
     points: User["points"];
   };
   actions: {
-    buy: (product: Product) => Promise<void>;
+    redeem: (product: Product) => Promise<void>;
     addPoints: (points: number) => Promise<void>;
   };
 }
 
-const USER = {
-  id: "5a03638052fd231590d04eb5",
-  name: "John Kite",
-  points: 2000,
-  redeemHistory: [],
-  createDate: 123123123123,
-};
-
 const UserContext = React.createContext<Context>({} as Context);
 
 const UserProvider: React.FC = ({children}) => {
-  const [user, setUser] = React.useState<User>(USER);
+  const [user, setUser] = React.useState<User>();
+  const [status, setStatus] = React.useState<"pending" | "resolved" | "rejected">("pending");
+  const toast = useToast();
 
-  function handleBuy(product: Product) {
-    return new Promise<void>((resolve) => {
-      setUser((user) => ({
+  async function handleRedeem(product: Product) {
+    if (!user) return;
+
+    return productApi.redeem(product).then(() => {
+      setUser({
         ...user,
         points: user.points - product.cost,
-        redeemHistory: [...user.redeemHistory, product],
-      }));
+      });
 
-      return resolve();
+      toast({
+        status: "success",
+        title: "Good!",
+        description: `${product.name} was redeemed!`,
+      });
     });
   }
 
-  function handleAddPoints(points: number) {
-    return new Promise<void>((resolve) => {
-      setUser((user) => ({...user, points: user.points + points}));
+  async function handleAddPoints(points: number) {
+    if (!user) return;
 
-      return resolve();
+    return api.points.add(points).then(() => {
+      setUser({...user, points: user.points + points});
+
+      toast({
+        status: "success",
+        title: "Good!",
+        description: `${points} points were added, you now have ${user.points + points} points!`,
+      });
     });
+  }
+
+  React.useEffect(() => {
+    api.fetch().then((user) => {
+      setUser(user);
+      setStatus("resolved");
+    });
+  }, []);
+
+  if (!user || status === "pending") {
+    return <CircularProgress isIndeterminate color="primary.500" />;
   }
 
   const state: Context["state"] = {
     user: user,
-    history: user["redeemHistory"],
     points: user["points"],
   };
   const actions: Context["actions"] = {
-    buy: handleBuy,
+    redeem: handleRedeem,
     addPoints: handleAddPoints,
   };
 

@@ -11,11 +11,10 @@ export function usePoints(): [Context["state"]["points"], Context["actions"]["ad
   return [points, addPoints];
 }
 
-export function useHistory(): [Context["state"]["history"], Context["actions"]["buy"]] {
+export function useRedeem(): Context["actions"]["redeem"] {
   const {
-    state: {history},
-    actions: {buy},
+    actions: {redeem},
   } = React.useContext(UserContext);
 
-  return [history, buy];
+  return redeem;
 }

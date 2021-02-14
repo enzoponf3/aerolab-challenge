@@ -2,7 +2,7 @@ import * as React from "react";
 import {Stack, Divider, Box, Image, Text} from "@chakra-ui/react";
 
 import {Product} from "../../types";
-import {useHistory, usePoints} from "../../../user/hooks";
+import {useRedeem, usePoints} from "../../../user/hooks";
 import coin from "../../../assets/icons/coin.svg";
 
 interface Props {
@@ -11,12 +11,12 @@ interface Props {
 
 const RedeemableCard: React.FC<Props> = ({product}) => {
   const [points] = usePoints();
-  const [, onBuy] = useHistory();
+  const redeem = useRedeem();
   const canBuy = points >= product.cost;
 
-  function handleBuy() {
+  function handleRedeem() {
     if (canBuy) {
-      return onBuy(product);
+      return redeem(product);
     }
   }
 
@@ -31,7 +31,7 @@ const RedeemableCard: React.FC<Props> = ({product}) => {
       position="relative"
       spacing={3}
       transition="transform 0.25s"
-      onClick={handleBuy}
+      onClick={handleRedeem}
     >
       <Box
         backgroundColor="white"
