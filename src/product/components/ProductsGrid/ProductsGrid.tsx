@@ -10,10 +10,9 @@ import Filters from "./Filters";
 
 interface Props {
   products: Product[];
-  canBuy?: boolean;
 }
 
-const ProductsGrid: React.FC<Props> = ({products, canBuy}) => {
+const ProductsGrid: React.FC<Props> = ({products}) => {
   const [filter, setFilter] = React.useState<Filter>(Filter.MostRecent);
   const filteredProducts = React.useMemo(() => {
     switch (filter) {
@@ -48,7 +47,7 @@ const ProductsGrid: React.FC<Props> = ({products, canBuy}) => {
       </Stack>
       <Grid gap={6} templateColumns="repeat(auto-fill, minmax(256px, 1fr))" width="100%">
         {filteredProducts.map((product) => (
-          <ProductCard key={product._id} canBuy={canBuy} product={product} />
+          <ProductCard key={product._id} product={product} />
         ))}
       </Grid>
       <Count current={filteredProducts.length} total={products.length} />

@@ -1,9 +1,9 @@
 import * as React from "react";
-import {Stack, Divider, Box, Image, Text} from "@chakra-ui/react";
+import {Stack, Divider, Image, Text} from "@chakra-ui/react";
 
-import {Product} from "../../types";
-import {useRedeem, usePoints} from "../../../user/hooks";
-import coin from "../../../assets/icons/coin.svg";
+import {Product} from "../types";
+import {useRedeem, usePoints} from "../../user/hooks";
+import coin from "../../assets/icons/coin.svg";
 
 interface Props {
   product: Product;
@@ -12,7 +12,7 @@ interface Props {
 const RedeemableCard: React.FC<Props> = ({product}) => {
   const [points] = usePoints();
   const redeem = useRedeem();
-  const canBuy = points >= product.cost;
+  const canBuy = product.cost <= points;
 
   function handleRedeem() {
     if (canBuy) {
@@ -30,29 +30,30 @@ const RedeemableCard: React.FC<Props> = ({product}) => {
       padding={6}
       position="relative"
       spacing={3}
-      transition="transform 0.25s"
       onClick={handleRedeem}
     >
-      <Box
+      <Stack
+        alignItems="center"
         backgroundColor="white"
         borderColor={canBuy ? "primary.500" : "orange.500"}
         borderRadius={9999}
         borderWidth={1}
         color={canBuy ? "primary.500" : "orange.500"}
+        direction="row"
         fontSize="sm"
         fontWeight="500"
+        justifyContent="center"
         paddingX={3}
         paddingY={1}
         position="absolute"
         right={6}
+        spacing={2}
         top={6}
         zIndex={1}
       >
-        <Stack alignItems="center" direction="row" justifyContent="center" spacing={2}>
-          <Text>{canBuy ? product.cost : `Missing ${product.cost - points} points`}</Text>
-          {canBuy && <Image height={4} src={coin} width={4} />}
-        </Stack>
-      </Box>
+        <Text>{canBuy ? product.cost : `Missing ${product.cost - points} points`}</Text>
+        {canBuy && <Image height={4} src={coin} width={4} />}
+      </Stack>
       <Image objectFit="contain" src={product.img.url} width={64} />
       <Divider />
       <Stack alignItems="flex-start" spacing={0}>

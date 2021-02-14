@@ -7,7 +7,7 @@ const Layout: React.FC = ({children}) => {
   return (
     <Stack backgroundColor="gray.100" flex={1} spacing={0}>
       <Navbar />
-      <Center>
+      <Center paddingY={6}>
         <Container maxWidth="6xl">{children}</Container>
       </Center>
     </Stack>

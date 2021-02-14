@@ -1,5 +1,5 @@
-import {CircularProgress, useToast} from "@chakra-ui/react";
 import React from "react";
+import {CircularProgress, useToast, Center} from "@chakra-ui/react";
 
 import {Product} from "../product/types";
 import productApi from "../product/api";
@@ -64,7 +64,11 @@ const UserProvider: React.FC = ({children}) => {
   }, []);
 
   if (!user || status === "pending") {
-    return <CircularProgress isIndeterminate color="primary.500" />;
+    return (
+      <Center paddingY={12}>
+        <CircularProgress isIndeterminate color="primary.500" />
+      </Center>
+    );
   }
 
   const state: Context["state"] = {

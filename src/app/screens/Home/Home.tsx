@@ -31,6 +31,7 @@ const HomeScreen: React.FC = () => {
         alignItems="flex-end"
         backgroundImage={`url(${header})`}
         backgroundSize="cover"
+        borderRadius="md"
         justifyContent="flex-start"
         minHeight={64}
         padding={6}
@@ -39,7 +40,7 @@ const HomeScreen: React.FC = () => {
           Electronics
         </Heading>
       </Flex>
-      <ProductsGrid canBuy products={products} />
+      <ProductsGrid products={products} />
     </Stack>
   );
 };
