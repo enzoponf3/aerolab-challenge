@@ -2,7 +2,7 @@ import * as React from "react";
 import {Stack, Heading, Flex, CircularProgress} from "@chakra-ui/react";
 
 import header from "../../../assets/header.png";
-import ProductsGrid from "../../../product/components/ProductsGrid";
+import ProductsList from "../../../product/components/ProductsList";
 import {Product} from "../../../product/types";
 import api from "../../../product/api";
 
@@ -40,7 +40,7 @@ const HomeScreen: React.FC = () => {
           Electronics
         </Heading>
       </Flex>
-      <ProductsGrid products={products} />
+      <ProductsList products={products} />
     </Stack>
   );
 };
