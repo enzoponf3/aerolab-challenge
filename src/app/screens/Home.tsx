@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Stack, Heading, Flex, CircularProgress} from "@chakra-ui/react";
 
-import header from "../../../assets/header.png";
+import header from "../../assets/header.png";
 import ProductsList from "../../product/components/ProductsList";
 import {Product} from "../../product/types";
 import api from "../../product/api";
