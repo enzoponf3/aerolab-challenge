@@ -25,7 +25,7 @@
     <div class="card">
         <img src={product.img.url} alt={product.name}>
         <div class="cost-badge">{product.cost} points
-            <svg width="24px" height="24px" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <svg width="16px" height="16px" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			<!-- Generator: Sketch 46.1 (44463) - http://www.bohemiancoding.com/sketch -->
 			<title>money</title>
 			<desc>Created with Sketch.</desc>
@@ -114,7 +114,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        padding: .5rem 0 .5rem 1rem;
+        padding: .5rem;
         margin: .5rem;
         border-radius: .5rem;
         background-color: rgba(0,0,0,.5);
@@ -174,6 +174,12 @@
         }
         img{
             height: 8rem;
+            transform: translateX(-1.2rem);
+        }
+    }
+    @media (max-width: 768px){
+        img{
+            transform: translateX(-1.2rem);
         }
     }
 </style>

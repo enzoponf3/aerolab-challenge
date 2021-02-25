@@ -88,9 +88,12 @@
 	</div>
 	<div class="user-info" href="/history">
 		{#if _user}
-		<Link to="history">
-			{_user.name}
-		</Link>
+		 {_user.name}
+		<div class="link">
+			<Link to="history">
+				History
+			</Link>
+		</div>
 		{/if}
 	</div>
 </header>
@@ -126,10 +129,12 @@
         position: sticky;
 		justify-content: space-between;
 		align-items: center;
-		padding: 1rem 0;
+		padding: 1rem 1rem;
         top: 0;
         background-color: white;
 		z-index: 1;
+		border-radius: 1rem;
+		box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
 	}
 	.coins{
 		display: flex;
@@ -138,6 +143,19 @@
 		width: 8rem;
 		border-radius: 8rem;
 		background-color: #dfdfdf;
+		font-weight: 900;
+	}
+	.user-info{
+		display: flex;
+		align-items: center;
+	}
+	.link{
+		padding: .5rem;
+		border-radius: 2rem;
+		margin-left: 1rem;
+		background-color: #fb7b04;
+		color: #f1f1f1;
+		font-weight: 700;
 	}
 	main {
 		text-align: center;
@@ -160,14 +178,16 @@
 	.titles{
 		font-weight: 700;
 		margin-top: 1rem;
+		box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
 	}
 	.product{
 		width: 100%;
 		height: 3rem;
 		display: flex;
 		justify-content: space-evenly;
-		box-shadow: 0 2px 5px 0;
-		margin-bottom: 10px;
+		border-bottom: solid 1px #888;
+		border-left: solid 1px #888;
+		border-right: solid 1px #888;
 	}
 	.product-info{
 		width: 20%;

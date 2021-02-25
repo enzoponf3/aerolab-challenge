@@ -25,5 +25,10 @@ export default {
     getHistory: () : Promise<Product[]> => fetch(BASE_URL+'user/history',{
         method:'get',
         headers:HEADER
+    }).then(res => res.json()),
+    addPoints: () => fetch(BASE_URL+'user/points',{
+        body:JSON.stringify({amount:1000}),
+        method:'post',
+        headers:HEADER
     }).then(res => res.json())
 }

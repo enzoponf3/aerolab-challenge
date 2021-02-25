@@ -1,6 +1,7 @@
 <script lang="ts">
     import {onMount} from "svelte"
     import {Link} from "svelte-routing"
+	import Noty from 'noty'
 
 	import Products from '../Components/Products.svelte'
 	import api from "../api";
@@ -15,10 +16,22 @@
 	const subtractPoints = async () =>{
 		await api.getUser().then( u => { _user = u })
 	}
+
+	const addPoints = async () => {
+		await api.addPoints().then( () =>{
+			new Noty ({
+                    theme:'sunset',
+                    type:'success',
+                    text: '1000 points added.',
+                    timeout: 3000
+                }).show()
+		}).catch()
+		await api.getUser().then( u => { _user = u })
+	}
 </script>
 <header>
 	<h1>
-        <Link to="/">
+		<Link to="/">
 			<svg width="39px" height="36px" viewBox="0 0 39 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 				<!-- Generator: Sketch 46.1 (44463) - http://www.bohemiancoding.com/sketch -->
 				<title>logo</title>
@@ -37,9 +50,9 @@
 					</g>
 				</g>
 			</svg>
-        </Link>
+		</Link>
 	</h1>
-	<div class="coins">
+	<div class="coins" on:click={addPoints}>
 		<svg width="24px" height="24px" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			<!-- Generator: Sketch 46.1 (44463) - http://www.bohemiancoding.com/sketch -->
 			<title>money</title>
@@ -80,14 +93,17 @@
 			</g>
 		</svg>
 		{#if _user}
-		<p>{_user.points}</p>
+			<p>{_user.points}</p>
 		{/if}
 	</div>
-	<div class="link user-info">
+	<div class="user-info" href="/history">
 		{#if _user}
-        <Link to="history">
-            {_user.name}
-        </Link>
+		 {_user.name}
+		<div class="link">
+			<Link to="history">
+				History
+			</Link>
+		</div>
 		{/if}
 	</div>
 </header>
@@ -106,10 +122,12 @@
         position: sticky;
 		justify-content: space-between;
 		align-items: center;
-		padding: 1rem 0;
+		padding: 1rem 1rem;
         top: 0;
         background-color: white;
-        z-index: 1;
+		z-index: 1;
+		border-radius: 1rem;
+		box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
 	}
 	.coins{
 		display: flex;
@@ -118,6 +136,19 @@
 		width: 8rem;
 		border-radius: 8rem;
 		background-color: #dfdfdf;
+		font-weight: 900;
+	}
+	.user-info{
+		display: flex;
+		align-items: center;
+	}
+	.link{
+		padding: .5rem;
+		border-radius: 2rem;
+		margin-left: 1rem;
+		background-color: #fb7b04;
+		color: #f1f1f1;
+		font-weight: 700;
 	}
 	main {
 		text-align: center;
