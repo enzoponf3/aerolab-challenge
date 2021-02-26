@@ -1,13 +1,15 @@
 <script lang="ts">
-    import {createEventDispatcher} from 'svelte'
-    import type {Product} from "../types"
     import Noty from 'noty'
+    import {onMount} from 'svelte'
+    
+    import type {Product} from "../Product/types"
+    import api from "../Product/api";
+    import {user} from '../Product/stores'
 
-    import api from "../api";
     export let product:Product
-    export let avaiablePoints:number
-    const dispatch = createEventDispatcher()
+    let avaiablePoints:number
 
+    onMount( () => { user.subscribe( u => avaiablePoints = u.points )})
     const redeem = async productId =>{
        await api.redeemProduct(productId).then(m => {
            new Noty ({
@@ -17,7 +19,7 @@
                     timeout: 3000
                 }).show()
        }).catch()
-       dispatch('message')
+        api.getUser().then(u => user.set(u))
     }
 
 </script>
@@ -99,6 +101,7 @@
         box-shadow: 0 0 5px 0;
         height: 19rem;
         overflow: hidden;
+        background-color: white;
     }
     .card:hover img{
         filter: brightness(0.5);

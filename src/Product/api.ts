@@ -1,5 +1,5 @@
 import type {User, Product} from './types'
-const BASE_URL = "https://coding-challenge-api.aerolab.co/"
+const BASE_URL = 'https://coding-challenge-api.aerolab.co/'
 const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDM0NTQ5YzdlNzE4NzAwMjBlMzhmMTIiLCJpYXQiOjE2MTQwNDIyNjh9.l1973GUNztJ4EEjyWIgFjqKfOmmQforpiQ9kBtBI4BA"
 const HEADER = {            
     'Content-Type':'application/json',
@@ -9,7 +9,7 @@ const HEADER = {
 }
 
 export default {
-    getUser:(): Promise<User> => fetch(BASE_URL+"user/me",{
+    getUser: () => fetch(BASE_URL+"user/me",{
         method: 'get',
         headers:HEADER
     }).then(res => res.json()),

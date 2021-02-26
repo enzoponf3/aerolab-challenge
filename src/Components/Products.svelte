@@ -2,11 +2,10 @@
     import {onMount} from 'svelte'
     import {fly} from 'svelte/transition'
     import {flip} from 'svelte/animate'
-    import api from "../api";
+    import api from "../Product/api";
     import Product from "./Product.svelte";
-    import type {Product as Prod} from '../types'
-
-    export let avaiablePoints:number
+    import type {Product as Prod} from '../Product/types'
+import Spinner from './Spinner.svelte';
 
     let products:Prod[]
     let sortedProducts:Prod[]
@@ -55,11 +54,11 @@
         {#if sortedProducts} 
             {#each sortedProducts as product(product._id) }
                 <div in:fly={{y:50, duration:500}} animate:flip={{duration:1000}}>
-                    <Product on:message product={product} avaiablePoints={avaiablePoints}/>
+                    <Product product={product}/>
                 </div>                
             {/each}
         {:else}
-            <p>Loading . . .</p>
+            <Spinner/>
         {/if}
     </div>
 </div>
